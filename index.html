@@ -1,1008 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b0b0b">
-<meta name="description" content="Gurshabad Singh — software engineering, machine learning projects, and research in computer vision and cognitive science.">
-<title>Gurshabad Singh | SWE & Research</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Gurmukhi:wght@400;500&display=swap');
-
-:root {
-  --bg: #0b0b0b;
-  --surface: #121212;
-  --surface-hover: #181818;
-  --text: #eeeeee;
-  --muted: #a2a2a2;
-  --line: #2b2b2b;
-  --yellow: #fdc500;
-  --yellow-hover: #ffd500;
-}
-
-* { box-sizing: border-box; }
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 32px;
-}
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.7 Inter, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-
-::selection {
-  color: #111;
-  background: var(--yellow);
-}
-
-a { color: inherit; text-decoration: none; }
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; }
-h1, h2, h3, p { margin: 0; }
-
-h1, h2, h3 {
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-:focus-visible {
-  outline: 2px solid var(--yellow);
-  outline-offset: 5px;
-}
-
-.container {
-  width: min(1100px, calc(100% - 64px));
-  margin: auto;
-}
-
-header { border-bottom: 1px solid var(--line); }
-
-.header-inner {
-  min-height: 92px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 25px;
-}
-
-.logo {
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -1.8px;
-  line-height: 1;
-}
-
-.logo span { color: var(--yellow); }
-
-nav {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  font-size: 14px;
-  color: var(--muted);
-}
-
-nav a { transition: color .2s; }
-nav a:hover { color: var(--text); }
-nav .contact-nav { color: var(--yellow); }
-
-.menu-toggle {
-  display: none;
-  background: none;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  color: var(--text);
-  padding: 7px 12px;
-  font-size: 14px;
-}
-
-.hero { padding: 83px 0 73px; }
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 255px;
-  gap: 75px;
-  align-items: start;
-}
-
-.eyebrow {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 1.3px;
-  text-transform: uppercase;
-  color: var(--yellow);
-}
-
-h1 {
-  margin-top: 20px;
-  font-size: clamp(40px, 5.4vw, 67px);
-  letter-spacing: -2.7px;
-}
-
-.gurmukhi {
-  font-family: "Noto Sans Gurmukhi", sans-serif;
-  font-size: 23px;
-  color: var(--muted);
-  margin-top: 13px;
-  line-height: 1.8;
-}
-
-.hero-role {
-  font-size: 20px;
-  color: #d5d5d5;
-  margin-top: 22px;
-  letter-spacing: -.4px;
-}
-
-.hero-description {
-  max-width: 650px;
-  margin-top: 17px;
-  color: var(--muted);
-  font-size: 16px;
-}
-
-.hero-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 11px;
-  margin-top: 29px;
-}
-
-.button {
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  padding: 10px 18px;
-  border: 1px solid #414141;
-  border-radius: 4px;
-  background: transparent;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 500;
-  transition: background .2s, border-color .2s, transform .2s;
-}
-
-.button:hover {
-  background: #202020;
-  border-color: #777;
-  transform: translateY(-2px);
-}
-
-.button.primary {
-  background: var(--yellow);
-  border-color: var(--yellow);
-  color: #111;
-}
-
-.button.primary:hover {
-  background: var(--yellow-hover);
-  border-color: var(--yellow-hover);
-}
-
-.profile-summary {
-  margin: 9px 0 0;
-  padding-top: 21px;
-  border-top: 2px solid var(--yellow);
-}
-
-.summary-item {
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-}
-
-.summary-item:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-  margin-bottom: 0;
-}
-
-.summary-item dt {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-
-.summary-item dd {
-  margin: 0;
-  font-size: 14px;
-  color: #d4d4d4;
-}
-
-.hero-bottom {
-  margin-top: 55px;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 14px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.section {
-  border-top: 1px solid var(--line);
-  padding: 65px 0;
-}
-
-.section-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 30px;
-}
-
-h2 {
-  font-size: 28px;
-  letter-spacing: -.9px;
-}
-
-.section-heading p {
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-bottom: 22px;
-}
-
-.filters button {
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--muted);
-  border-radius: 4px;
-  padding: 7px 13px;
-  font-size: 13px;
-  transition: color .2s, border-color .2s;
-}
-
-.filters button:hover { color: var(--text); }
-
-.filters button[aria-pressed="true"] {
-  color: var(--yellow);
-  border-color: #756015;
-  background: #18160e;
-}
-
-.projects {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 17px;
-}
-
-.project-card {
-  appearance: none;
-  width: 100%;
-  min-height: 270px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  padding: 27px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--surface);
-  color: var(--text);
-  position: relative;
-  transition: transform .22s, border-color .22s, background .22s;
-}
-
-.project-card:hover {
-  transform: translateY(-3px);
-  border-color: #706021;
-  background: var(--surface-hover);
-}
-
-.project-top {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 21px;
-}
-
-.project-category {
-  font-size: 12px;
-  color: var(--yellow);
-}
-
-.project-mark {
-  font-size: 23px;
-  color: #666;
-  line-height: 1;
-  transition: color .2s, transform .2s;
-}
-
-.project-card:hover .project-mark {
-  color: var(--yellow);
-  transform: rotate(90deg);
-}
-
-.project-card h3 {
-  font-size: 21px;
-  letter-spacing: -.55px;
-}
-
-.project-card p {
-  color: var(--muted);
-  font-size: 14px;
-  margin-top: 11px;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 18px;
-}
-
-.tag {
-  display: inline-block;
-  font-size: 12px;
-  line-height: 1.6;
-  padding: 3px 8px;
-  border: 1px solid #383838;
-  border-radius: 3px;
-  color: #bfbfbf;
-}
-
-.project-bottom {
-  width: 100%;
-  margin-top: auto;
-  padding-top: 23px;
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  align-items: center;
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.project-bottom .details-label { color: #d7d7d7; }
-
-.research-entry {
-  display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  gap: 45px;
-  padding: 28px 0;
-  border-top: 1px solid var(--line);
-}
-
-.research-entry:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-.research-entry h3 {
-  font-size: 18px;
-  letter-spacing: -.35px;
-}
-
-.research-role {
-  color: var(--yellow);
-  font-size: 13px;
-  margin-top: 8px;
-}
-
-.research-date {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-.research-copy p {
-  color: var(--muted);
-  font-size: 15px;
-}
-
-.research-copy p + p { margin-top: 12px; }
-
-.manuscripts {
-  margin-top: 29px;
-  padding-top: 28px;
-  border-top: 1px solid var(--line);
-}
-
-.manuscripts-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.manuscripts-heading h3 { font-size: 19px; }
-
-.manuscripts-heading span {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.manuscript {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 25px;
-  border-top: 1px solid var(--line);
-  padding: 20px 0;
-}
-
-.manuscript h3 {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.manuscript p {
-  font-size: 14px;
-  color: var(--muted);
-  margin-top: 7px;
-}
-
-.manuscript-status {
-  font-size: 12px;
-  color: var(--yellow);
-  white-space: nowrap;
-}
-
-.manuscript-note {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 10px;
-}
-
-.about-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 295px;
-  gap: 65px;
-}
-
-.about-copy p {
-  color: var(--muted);
-  font-size: 15px;
-}
-
-.about-copy p:first-child { color: #d2d2d2; }
-.about-copy p + p { margin-top: 18px; }
-
-.about-aside {
-  border-left: 1px solid var(--line);
-  padding-left: 25px;
-}
-
-.about-aside h3 {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--yellow);
-  margin-bottom: 16px;
-}
-
-.about-aside ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.about-aside li {
-  font-size: 13px;
-  color: var(--muted);
-  padding-bottom: 17px;
-}
-
-.about-aside strong {
-  display: block;
-  font-weight: 500;
-  color: #d5d5d5;
-  margin-bottom: 3px;
-}
-
-.skills {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  margin-top: 35px;
-  padding-top: 27px;
-  border-top: 1px solid var(--line);
-}
-
-.skills h3 {
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-
-.skills p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.9;
-}
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 70px;
-}
-
-.contact-copy {
-  color: var(--muted);
-  font-size: 15px;
-  max-width: 420px;
-  margin-top: 17px;
-}
-
-.email-link {
-  color: var(--yellow);
-  display: inline-block;
-  font-size: 15px;
-  margin-top: 25px;
-  overflow-wrap: anywhere;
-}
-
-.social-links {
-  display: flex;
-  gap: 23px;
-  margin-top: 18px;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.social-links a:hover { color: var(--text); }
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-form label {
-  display: block;
-  font-size: 13px;
-  color: #bfbfbf;
-  margin-bottom: 21px;
-}
-
-input, select, textarea {
-  width: 100%;
-  display: block;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid #4a4a4a;
-  border-radius: 0;
-  padding: 11px 0;
-  color: var(--text);
-  font-size: 15px;
-}
-
-input::placeholder, textarea::placeholder { color: #747474; }
-select option { background: #151515; }
-textarea { resize: vertical; }
-
-.form-note {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 15px;
-}
-
-footer { border-top: 1px solid var(--line); }
-
-.footer-inner {
-  padding: 27px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.footer-inner .logo {
-  font-size: 25px;
-  color: var(--text);
-}
-
-dialog {
-  color: var(--text);
-  background: #101010;
-  border: 1px solid #424242;
-  border-radius: 7px;
-  width: min(710px, calc(100% - 32px));
-  max-height: 88vh;
-  padding: 0;
-}
-
-dialog[open] { animation: dialog-enter .18s ease; }
-
-dialog::backdrop {
-  background: rgba(0, 0, 0, .78);
-  backdrop-filter: blur(5px);
-}
-
-.dialog-inner { padding: 33px 36px; }
-
-.dialog-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.dialog-category {
-  font-size: 12px;
-  color: var(--yellow);
-}
-
-.close-dialog {
-  display: grid;
-  place-items: center;
-  width: 35px;
-  height: 35px;
-  border: 1px solid #444;
-  border-radius: 4px;
-  color: var(--text);
-  background: transparent;
-  font-size: 24px;
-  line-height: 1;
-}
-
-.close-dialog:hover { background: #242424; }
-
-dialog h2 {
-  font-size: 31px;
-  margin-top: 24px;
-  letter-spacing: -.8px;
-}
-
-.dialog-status {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 9px;
-}
-
-.dialog-description {
-  color: #c8c8c8;
-  font-size: 15px;
-  margin-top: 22px;
-}
-
-.dialog-detail {
-  margin-top: 25px;
-  padding-top: 21px;
-  border-top: 1px solid var(--line);
-}
-
-.dialog-detail h3 {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-
-.dialog-detail p {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.dialog-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 28px;
-}
-
-[hidden] { display: none !important; }
-
-.skip {
-  position: absolute;
-  top: -100px;
-  left: 20px;
-  background: var(--yellow);
-  color: #111;
-  padding: 10px 15px;
-  z-index: 50;
-}
-
-.skip:focus { top: 10px; }
-
-.intro { animation: enter .55s ease both; }
-
-.reveal { opacity: 1; }
-
-@media (prefers-reduced-motion: no-preference) {
-  .reveal.pending {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
-  .reveal.visible {
-    animation: enter .5s ease both;
-  }
-}
-
-@keyframes enter {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes dialog-enter {
-  from { opacity: 0; transform: translateY(7px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 900px) {
-  .hero-grid { gap: 40px; }
-  .contact-grid { gap: 40px; }
-  .about-grid {
-    grid-template-columns: minmax(0, 1fr) 250px;
-    gap: 40px;
-  }
-}
-
-@media (max-width: 720px) {
-  .container { width: calc(100% - 40px); }
-
-  .header-inner { min-height: 76px; }
-  .logo { font-size: 29px; }
-  .menu-toggle { display: block; }
-
-  nav {
-    display: none;
-    position: absolute;
-    top: 76px;
-    left: 0;
-    right: 0;
-    padding: 21px 20px;
-    background: var(--bg);
-    border-bottom: 1px solid var(--line);
-    z-index: 20;
-    gap: 21px;
-    flex-wrap: wrap;
-  }
-
-  nav.open { display: flex; }
-
-  .hero { padding: 50px 0 45px; }
-
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  h1 {
-    font-size: clamp(37px, 9vw, 55px);
-    letter-spacing: -1.8px;
-  }
-
-  .gurmukhi { font-size: 21px; }
-  .hero-role { font-size: 19px; }
-
-  .profile-summary {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 0;
-  }
-
-  .summary-item {
-    margin: 0;
-    padding: 0;
-    border-bottom: 0;
-  }
-
-  .hero-bottom { margin-top: 32px; }
-
-  .section { padding: 45px 0; }
-
-  .section-heading {
-    display: block;
-    margin-bottom: 24px;
-  }
-
-  .section-heading p { margin-top: 9px; }
-  h2 { font-size: 25px; }
-
-  .projects { grid-template-columns: 1fr; }
-  .project-card { min-height: 250px; padding: 23px; }
-
-  .research-entry {
-    grid-template-columns: 1fr;
-    gap: 15px;
-    padding: 24px 0;
-  }
-
-  .manuscript {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .about-grid,
-  .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .about-aside {
-    border-left: 0;
-    border-top: 1px solid var(--line);
-    padding: 23px 0 0;
-  }
-
-  .skills {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  .form-row { grid-template-columns: 1fr; gap: 0; }
-  .dialog-inner { padding: 25px; }
-  dialog h2 { font-size: 27px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-
-  *, *::before, *::after {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta name="description" content="Gurshabad Singh — software engineering, machine learning projects, and research in computer vision and cognitive science.">
+  <title>Gurshabad Singh | SWE & Research</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 
 <body>
-<a class="skip" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
 
-<header>
-  <div class="container header-inner">
-    <a class="logo" href="#" aria-label="Gurshabad Singh home">
-      Gur<span>.</span>
-    </a>
+  <header>
+    <div class="container header-inner">
+      <a class="logo" href="#" aria-label="Gurshabad Singh home">
+        Gur<span>.</span>
+      </a>
 
-    <nav id="navigation" aria-label="Main navigation">
-      <a href="#projects">Projects</a>
-      <a href="#research">Research</a>
-      <a href="#about">About</a>
-      <a class="contact-nav" href="#contact">Contact</a>
-    </nav>
+      <nav id="navigation" aria-label="Main navigation">
+        <a href="#projects">Projects</a>
+        <a href="#research">Research</a>
+        <a href="#about">About</a>
+        <a class="contact-link" href="#contact">Contact</a>
+      </nav>
 
-    <button
-      class="menu-toggle"
-      id="menu-toggle"
-      type="button"
-      aria-expanded="false"
-      aria-controls="navigation">
-      Menu
-    </button>
-  </div>
-</header>
+      <button class="menu-button" id="menu-button" type="button"
+        aria-expanded="false" aria-controls="navigation">
+        Menu
+      </button>
+    </div>
+  </header>
 
-<main id="main">
+  <main id="main">
+    <section class="hero container">
+      <div class="hero-grid">
+        <div class="hero-intro">
+          <p class="eyebrow">Computer Science & Engineering · Cognitive Science</p>
+          <h1>Gurshabad Singh</h1>
+          <p class="gurmukhi" lang="pa">ਗੁਰਸ਼ਬਦ ਸਿੰਘ</p>
+          <p class="hero-role">Software engineering, machine learning & research.</p>
 
-  <section class="hero container">
-    <div class="hero-grid intro">
-      <div>
-        <p class="eyebrow">Computer Science & Engineering · Cognitive Science</p>
+          <p class="hero-description">
+            I’m a UC Merced undergraduate building software and studying
+            how computational methods can help explain human behavior.
+            My work includes local AI applications, computer vision,
+            and collaborative spatial reasoning.
+          </p>
 
-        <h1>Gurshabad Singh</h1>
-
-        <p class="gurmukhi" lang="pa">ਗੁਰਸ਼ਬਦ ਸਿੰਘ</p>
-
-        <p class="hero-role">
-          Software engineering, machine learning & research.
-        </p>
-
-        <p class="hero-description">
-          I’m a UC Merced undergraduate building software and studying
-          how computational methods can help explain human behavior.
-          My work includes local AI applications, computer vision,
-          and collaborative spatial reasoning.
-        </p>
-
-        <div class="hero-links">
-          <a class="button primary" href="#projects">Explore projects</a>
-
-          <a
-            class="button"
-            href="https://github.com/singhgurshabad"
-            target="_blank"
-            rel="noopener noreferrer">
-            GitHub
-          </a>
-
-          <a
-            class="button"
-            href="https://www.linkedin.com/in/gurshabadsingh/"
-            target="_blank"
-            rel="noopener noreferrer">
-            LinkedIn
-          </a>
+          <div class="hero-actions">
+            <a class="button primary" href="#projects">Explore projects</a>
+            <a class="button" href="https://github.com/singhgurshabad"
+              target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a class="button" href="https://www.linkedin.com/in/gurshabadsingh/"
+              target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
         </div>
+
+        <dl class="profile-summary">
+          <div>
+            <dt>Education</dt>
+            <dd>
+              BS, Computer Science & Engineering<br>
+              BS, Cognitive Science<br>
+              Expected 2028
+            </dd>
+          </div>
+          <div>
+            <dt>Current research</dt>
+            <dd>
+              Marghetis Lab · D-Rally lead<br>
+              EVO Lab · AI manuscripts
+            </dd>
+          </div>
+          <div>
+            <dt>Research interests</dt>
+            <dd>
+              Computer vision<br>
+              Human–AI interaction<br>
+              Computational cognition
+            </dd>
+          </div>
+        </dl>
       </div>
 
-      <dl class="profile-summary">
-        <div class="summary-item">
-          <dt>Education</dt>
-          <dd>
-            BS, Computer Science & Engineering<br>
-            BS, Cognitive Science<br>
-            Expected 2028
-          </dd>
-        </div>
+      <div class="hero-footer">
+        <span>UC Merced · Class of 2028</span>
+        <span>Software engineering & AI research opportunities</span>
+      </div>
+    </section>
 
-        <div class="summary-item">
-          <dt>Current research</dt>
-          <dd>
-            Marghetis Lab · D-Rally lead<br>
-            EVO Lab · AI manuscripts
-          </dd>
-        </div>
+    <section id="projects" class="section container">
+      <div class="section-heading reveal">
+        <h2>Selected work</h2>
+        <p>Explore implementation details, contributions, and scope.</p>
+      </div>
 
-        <div class="summary-item">
-          <dt>Research interests</dt>
-          <dd>
-            Computer vision<br>
-            Human–AI interaction<br>
-            Computational cognition
-          </dd>
-        </div>
-      </dl>
-    </div>
+      <div id="filters" class="filters" role="group"
+        aria-label="Filter projects"></div>
 
-    <div class="hero-bottom">
-      <span>UC Merced · Class of 2028</span>
-      <span>Interested in software engineering and AI research opportunities</span>
-    </div>
-  </section>
+      <p id="project-count" class="sr-only" role="status"></p>
+      <div id="project-grid" class="project-grid"></div>
 
-  <section id="projects" class="section container">
-    <div class="section-heading reveal">
-      <h2>Selected work</h2>
-      <p>Open a project to read about its implementation and scope.</p>
-    </div>
+      <noscript>
+        <p>
+          Enable JavaScript to explore projects, or visit
+          <a href="https://github.com/singhgurshabad">my GitHub profile</a>.
+        </p>
+      </noscript>
+    </section>
 
-    <div
-      class="filters"
-      id="filters"
-      role="group"
-      aria-label="Filter projects">
-    </div>
+    <section id="research" class="section container">
+      <div class="section-heading reveal">
+        <h2>Research & manuscripts</h2>
+        <p>Computational methods and questions about human behavior.</p>
+      </div>
 
-    <div class="projects" id="project-grid"></div>
-
-    <noscript>
-      <p>
-        Enable JavaScript to explore project details, or visit
-        <a href="https://github.com/singhgurshabad">my GitHub profile</a>.
-      </p>
-    </noscript>
-  </section>
-
-  <section id="research" class="section container">
-    <div class="section-heading reveal">
-      <h2>Research & manuscripts</h2>
-      <p>Computational methods and questions about human behavior.</p>
-    </div>
-
-    <div>
       <article class="research-entry reveal">
         <div>
           <h3>Marghetis Lab</h3>
           <p class="research-role">Research Assistant · D-Rally Lead</p>
-          <p class="research-date">Fall 2025–present</p>
+          <p class="metadata">Fall 2025–present</p>
         </div>
-
         <div class="research-copy">
           <p>
             Research in spatial cognition, language, and human coordination
@@ -1010,7 +132,6 @@ dialog h2 {
             data with pose estimation, model replication, and reproducible
             analysis workflows.
           </p>
-
           <p>
             Current projects include driver–co-driver collaboration
             in rally racing and collaborative spatial reasoning in Portal 2.
@@ -1022,659 +143,199 @@ dialog h2 {
         <div>
           <h3>EVO Lab</h3>
           <p class="research-role">AI Research · Co-author</p>
-          <p class="research-date">Ongoing</p>
+          <p class="metadata">Ongoing</p>
         </div>
-
         <div class="research-copy">
           <p>
-            Contributing to two AI-related theoretical manuscripts.
-            Their topics concern artificial intelligence in relation
-            to religion and warfare.
+            Contributing to two AI-related theoretical manuscripts
+            concerning artificial intelligence in relation to
+            religion and warfare.
           </p>
         </div>
       </article>
-    </div>
 
-    <div class="manuscripts reveal">
-      <div class="manuscripts-heading">
-        <h3>Manuscripts in progress</h3>
-        <span>Co-author · EVO Lab</span>
+      <div class="manuscripts reveal">
+        <div class="manuscripts-heading">
+          <h3>Manuscripts in progress</h3>
+          <span>Co-author · EVO Lab</span>
+        </div>
+
+        <article class="manuscript">
+          <div>
+            <h3>Artificial intelligence and religion</h3>
+            <p>Theoretical manuscript examining AI in relation to religion.</p>
+          </div>
+          <span class="manuscript-status">In manuscript</span>
+        </article>
+
+        <article class="manuscript">
+          <div>
+            <h3>Artificial intelligence and warfare</h3>
+            <p>Theoretical manuscript examining AI in relation to warfare.</p>
+          </div>
+          <span class="manuscript-status">In manuscript</span>
+        </article>
+
+        <p class="manuscript-note">
+          Listed by research topic rather than final paper title.
+          Publication details will be added when available.
+        </p>
       </div>
+    </section>
 
-      <article class="manuscript">
-        <div>
-          <h3>Artificial intelligence and religion</h3>
+    <section id="about" class="section container">
+      <div class="section-heading reveal"><h2>About</h2></div>
+
+      <div class="about-grid reveal">
+        <div class="about-copy">
           <p>
-            Theoretical manuscript examining AI in relation to religion.
+            I study Computer Science & Engineering and Cognitive Science
+            at UC Merced, with an expected graduation in 2028.
+            I’m interested in machine learning, software engineering,
+            and computational approaches to understanding people.
           </p>
-        </div>
-        <span class="manuscript-status">In manuscript</span>
-      </article>
-
-      <article class="manuscript">
-        <div>
-          <h3>Artificial intelligence and warfare</h3>
           <p>
-            Theoretical manuscript examining AI in relation to warfare.
+            My projects range from a local research assistant using
+            retrieval-augmented generation to pose-estimation research
+            and connected hardware. I plan to pursue a PhD in computer
+            science and continue developing my research practice.
+          </p>
+          <p>
+            Beyond technical work, I lead student organizations,
+            play tabla, and volunteer at the gurdwara.
+            I speak English, Punjabi, Hindi, and Urdu.
+            My Punjabi language and Sikh literature apps bring
+            these interests into my software work.
           </p>
         </div>
-        <span class="manuscript-status">In manuscript</span>
-      </article>
 
-      <p class="manuscript-note">
-        Listed by research topic rather than final paper title.
-        Publication details will be added when available.
-      </p>
-    </div>
-  </section>
-
-  <section id="about" class="section container">
-    <div class="section-heading reveal">
-      <h2>About</h2>
-    </div>
-
-    <div class="about-grid reveal">
-      <div class="about-copy">
-        <p>
-          I study Computer Science & Engineering and Cognitive Science
-          at UC Merced, with an expected graduation in 2028.
-          I’m interested in machine learning, software engineering,
-          and computational approaches to understanding people.
-        </p>
-
-        <p>
-          My projects range from a local research assistant using
-          retrieval-augmented generation to pose-estimation research
-          and connected hardware. I plan to pursue a PhD in computer
-          science and continue developing my research practice.
-        </p>
-
-        <p>
-          Beyond technical work, I lead student organizations,
-          play tabla, and volunteer at the gurdwara.
-          I speak English, Punjabi, Hindi, and Urdu.
-          My Punjabi language and Sikh literature apps bring
-          these interests into my software work.
-        </p>
+        <aside class="about-aside">
+          <h3>Leadership & experience</h3>
+          <ul>
+            <li><strong>Panjabi Students’ Union</strong>President · UC Merced</li>
+            <li><strong>Sikh Student Association</strong>President · UC Merced</li>
+            <li><strong>Global Career Accelerator</strong>Code for Data · SQL and data wrangling</li>
+          </ul>
+        </aside>
       </div>
 
-      <aside class="about-aside">
-        <h3>Leadership & experience</h3>
+      <div class="skills reveal">
+        <div>
+          <h3>Languages</h3>
+          <p>Python · C / C++ · JavaScript · C# · SQL</p>
+        </div>
+        <div>
+          <h3>ML & research tools</h3>
+          <p>PyTorch · DeepLabCut · SentenceTransformers · Ollama · Streamlit</p>
+        </div>
+        <div>
+          <h3>Development & systems</h3>
+          <p>React Native · Git · Unity · OpenGL / GLUT · Arduino · BLE</p>
+        </div>
+      </div>
+    </section>
 
-        <ul>
-          <li>
-            <strong>Panjabi Students’ Union</strong>
-            President · UC Merced
-          </li>
+    <section id="contact" class="section container">
+      <div class="contact-grid">
+        <div class="reveal">
+          <h2>Get in touch</h2>
+          <p class="contact-copy">
+            For engineering opportunities, research collaborations,
+            or questions about my projects, reach out by email.
+          </p>
 
-          <li>
-            <strong>Sikh Student Association</strong>
-            President · UC Merced
-          </li>
+          <a class="email-link" href="mailto:gurshabadsingh@ucmerced.edu">
+            gurshabadsingh@ucmerced.edu
+          </a>
 
-          <li>
-            <strong>Global Career Accelerator</strong>
-            Intern · SQL and data wrangling
-          </li>
-        </ul>
-      </aside>
+          <div class="contact-actions">
+            <button type="button" class="copy-email" id="copy-email">
+              Copy email
+            </button>
+            <a href="https://github.com/singhgurshabad"
+              target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/gurshabadsingh/"
+              target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+          <p class="form-note" id="copy-status" role="status"></p>
+        </div>
+
+        <form id="contact-form" class="reveal">
+          <div class="form-row">
+            <label>Your name
+              <input name="name" autocomplete="name" required
+                minlength="2" maxlength="100" placeholder="Name">
+            </label>
+            <label>Email address
+              <input name="email" type="email" autocomplete="email"
+                required maxlength="254" placeholder="you@example.com">
+            </label>
+          </div>
+
+          <label>Subject
+            <select name="subject">
+              <option>Research collaboration</option>
+              <option>Software engineering opportunity</option>
+              <option>Project inquiry</option>
+              <option>Other</option>
+            </select>
+          </label>
+
+          <label>Message
+            <textarea name="message" rows="4" required minlength="10"
+              maxlength="4000"
+              placeholder="A little about what you have in mind."></textarea>
+          </label>
+
+          <button type="submit" class="button primary">Open email draft</button>
+          <p class="form-note" id="contact-status" role="status">
+            Opens your email app with a prepared draft.
+            Send it there to get in touch.
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="logo" href="#" aria-label="Back to home">Gur<span>.</span></a>
+      <span>© <span id="year">2026</span> Gurshabad Singh</span>
+      <a href="#">Back to top</a>
     </div>
+  </footer>
 
-    <div class="skills reveal">
-      <div>
-        <h3>Languages</h3>
-        <p>Python · C / C++ · JavaScript · C# · SQL</p>
+  <dialog id="project-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-inner">
+      <div class="dialog-top">
+        <span id="dialog-category" class="dialog-category"></span>
+        <button type="button" id="close-dialog" class="close-dialog"
+          aria-label="Close project details">×</button>
       </div>
 
-      <div>
-        <h3>ML & research tools</h3>
-        <p>
-          PyTorch · DeepLabCut · SentenceTransformers ·
-          Ollama · Streamlit
-        </p>
+      <h2 id="dialog-title"></h2>
+      <p id="dialog-status" class="metadata"></p>
+      <p id="dialog-description" class="dialog-description"></p>
+      <div id="dialog-tags" class="tags"></div>
+
+      <div class="dialog-detail">
+        <h3>Implementation & contribution</h3>
+        <p id="dialog-implementation"></p>
       </div>
 
-      <div>
-        <h3>Development & systems</h3>
-        <p>
-          React Native · Git · Unity · OpenGL / GLUT ·
-          Arduino · BLE
-        </p>
+      <div class="dialog-detail">
+        <h3>Scope & current status</h3>
+        <p id="dialog-scope"></p>
       </div>
-    </div>
-  </section>
 
-  <section id="contact" class="section container">
-    <div class="contact-grid">
-      <div class="reveal">
-        <h2>Get in touch</h2>
-
-        <p class="contact-copy">
-          For engineering opportunities, research collaborations,
-          or questions about my projects, reach out by email.
-        </p>
-
-        <a
-          class="email-link"
-          href="mailto:gurshabadsingh@ucmerced.edu">
-          gurshabadsingh@ucmerced.edu
+      <div class="dialog-actions">
+        <a id="dialog-source" class="button primary" target="_blank"
+          rel="noopener noreferrer" hidden>Source code</a>
+        <a id="dialog-contact" class="button" href="#contact">
+          Discuss this project
         </a>
-
-        <div class="social-links">
-          <a
-            href="https://github.com/singhgurshabad"
-            target="_blank"
-            rel="noopener noreferrer">
-            GitHub
-          </a>
-
-          <a
-            href="https://www.linkedin.com/in/gurshabadsingh/"
-            target="_blank"
-            rel="noopener noreferrer">
-            LinkedIn
-          </a>
-        </div>
       </div>
-
-      <form id="contact-form" class="reveal">
-        <div class="form-row">
-          <label>
-            Your name
-            <input
-              name="name"
-              autocomplete="name"
-              required
-              minlength="2"
-              maxlength="100"
-              placeholder="Name">
-          </label>
-
-          <label>
-            Email address
-            <input
-              name="email"
-              type="email"
-              autocomplete="email"
-              required
-              maxlength="254"
-              placeholder="you@example.com">
-          </label>
-        </div>
-
-        <label>
-          Subject
-          <select name="subject">
-            <option>Research collaboration</option>
-            <option>Software engineering opportunity</option>
-            <option>Project inquiry</option>
-            <option>Other</option>
-          </select>
-        </label>
-
-        <label>
-          Message
-          <textarea
-            name="message"
-            rows="4"
-            required
-            minlength="10"
-            maxlength="4000"
-            placeholder="A little about what you have in mind."></textarea>
-        </label>
-
-        <button type="submit" class="button primary">
-          Open email draft
-        </button>
-
-        <p class="form-note" id="contact-status" role="status">
-          Opens your email app with a prepared draft.
-          Send it there to get in touch.
-        </p>
-      </form>
     </div>
-  </section>
-
-</main>
-
-<footer>
-  <div class="container footer-inner">
-    <a class="logo" href="#" aria-label="Back to home">Gur<span>.</span></a>
-    <span>© <span id="year">2026</span> Gurshabad Singh</span>
-    <a href="#">Back to top</a>
-  </div>
-</footer>
-
-<dialog id="project-dialog" aria-labelledby="dialog-title">
-  <div class="dialog-inner">
-    <div class="dialog-top">
-      <span class="dialog-category" id="dialog-category"></span>
-
-      <button
-        type="button"
-        class="close-dialog"
-        id="close-dialog"
-        aria-label="Close project details">
-        ×
-      </button>
-    </div>
-
-    <h2 id="dialog-title"></h2>
-    <p class="dialog-status" id="dialog-status"></p>
-    <p class="dialog-description" id="dialog-description"></p>
-    <div class="tags" id="dialog-tags"></div>
-
-    <div class="dialog-detail">
-      <h3>Implementation & contribution</h3>
-      <p id="dialog-implementation"></p>
-    </div>
-
-    <div class="dialog-detail">
-      <h3>Scope & current status</h3>
-      <p id="dialog-scope"></p>
-    </div>
-
-    <div class="dialog-actions">
-      <a
-        class="button primary"
-        id="dialog-source"
-        target="_blank"
-        rel="noopener noreferrer"
-        hidden>
-        Source code
-      </a>
-
-      <a class="button" id="dialog-contact" href="#contact">
-        Discuss this project
-      </a>
-    </div>
-  </div>
-</dialog>
-
-<script>
-const projects = [
-  {
-    title: "ScholarChat",
-    category: "AI / ML",
-    status: "Personal project",
-    description:
-      "A local AI research assistant for academic PDFs, with semantic search, paper Q&A, summaries, and comparisons.",
-    tags: ["Python", "RAG", "Streamlit", "Ollama"],
-    implementation:
-      "Document chunking and embeddings with SentenceTransformers, cosine-similarity ranking, and context retrieval for Llama 3.1 through Ollama. The Streamlit interface supports working with multiple papers and exploring supporting text passages.",
-    scope:
-      "Designed to run locally without external LLM API calls. Generated responses should be assessed against the retrieved passages and original papers.",
-    url: "https://github.com/singhgurshabad/ScholarChat"
-  },
-  {
-    title: "D-Rally",
-    category: "Research",
-    status: "Active · Marghetis Lab",
-    description:
-      "Computer-vision workflows for analyzing rally footage and driver–co-driver coordination.",
-    tags: ["Python", "DeepLabCut", "Pose estimation"],
-    implementation:
-      "I lead the project and work on model replication, frame-level comparison of pose predictions, and research-corpus organization. The corpus records factors such as camera position, visibility, road context, and co-driver audio.",
-    scope:
-      "Replication testing established agreement on a 1,801-frame video. Low-confidence pose predictions require further quality control; matching outputs is a reproducibility check rather than proof of tracking accuracy."
-  },
-  {
-    title: "Connect-N",
-    category: "Software",
-    status: "CS 30 course project",
-    description:
-      "A configurable Connect 4, 5, and 6 game with a Minimax AI opponent and real-time graphics.",
-    tags: ["C++", "Minimax", "OpenGL", "GLUT"],
-    implementation:
-      "Depth-limited Minimax for AI decisions, configurable board dimensions, player-versus-player and player-versus-AI modes, and a mouse-driven interface built with OpenGL and GLUT.",
-    scope:
-      "A course project combining game-tree search, modular object-oriented programming, and interactive graphics."
-  },
-  {
-    title: "Smart Medication Monitor",
-    category: "Systems",
-    status: "Prototype · Team No Signal",
-    description:
-      "A connected pill-bottle prototype using weight measurements, motion context, and BLE communication.",
-    tags: ["Embedded C++", "BLE", "HX711", "Sensors"],
-    implementation:
-      "Our team design combines a Seeed XIAO MG24 Sense with a load cell and HX711 amplifier, optional IMU context, and a 3D-printed weighing platform. The platform must avoid side contact that could distort weight readings.",
-    scope:
-      "In development for CSE 157. Calibration and single-pill resolution remain prototype questions. Bottle movement or opening does not confirm medication ingestion."
-  },
-  {
-    title: "Portal 2 Spatial Reasoning",
-    category: "Research",
-    status: "Research in progress",
-    description:
-      "Examining how collaborators coordinate through language, perspective, and shared frames of reference.",
-    tags: ["Spatial cognition", "Behavioral analysis"],
-    implementation:
-      "Study dialogue and player movement around shifts in frames of reference. The project uses gameplay examples to examine how collaborators interpret directions and coordinate in a shared virtual space.",
-    scope:
-      "An ongoing cognitive-science project titled Collaborative Spatial Reasoning in 4D Space. The computational analysis pipeline is being developed."
-  },
-  {
-    title: "Planet X",
-    category: "Software",
-    status: "NASA Space Apps · 2025",
-    description:
-      "An educational farming simulator connecting environmental information with agricultural decisions.",
-    tags: ["Unity", "C#", "NASA data"],
-    implementation:
-      "Developed with Unity and C#. NASA satellite data is integrated into an in-game information tab to help explain environmental factors affecting crop growth.",
-    scope:
-      "A collaborative hackathon project developed for NASA Space Apps Challenge 2025."
-  },
-  {
-    title: "Bolo Punjabi",
-    category: "Software",
-    status: "Personal project · 2024",
-    description:
-      "A mobile application for learning Punjabi alphabets, numbers, and vocabulary.",
-    tags: ["React Native", "JavaScript", "Mobile"],
-    implementation:
-      "A React Native interface presenting Gurmukhi alphabets, pronunciation guides, Punjabi numbers with English equivalents, and common vocabulary.",
-    scope:
-      "A language-learning project connecting mobile development with Punjabi language preservation."
-  },
-  {
-    title: "Sundar Gutka",
-    category: "Software",
-    status: "Personal project · 2022",
-    description:
-      "An independently developed mobile app presenting Sikh literature in Punjabi and English.",
-    tags: ["React Native", "Bilingual content"],
-    implementation:
-      "Built a React Native reading experience organized around Punjabi and English Sikh literature.",
-    scope:
-      "An independent mobile project bringing together software development and accessible bilingual reading."
-  }
-];
-
-const filters = document.getElementById("filters");
-const grid = document.getElementById("project-grid");
-const dialog = document.getElementById("project-dialog");
-const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
-let selectedCategory = "All";
-let lastProjectButton = null;
-
-function makeTag(text) {
-  const span = document.createElement("span");
-  span.className = "tag";
-  span.textContent = text;
-  return span;
-}
-
-let observer = null;
-
-if ("IntersectionObserver" in window && !reduceMotion.matches) {
-  observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.remove("pending");
-        entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-}
-
-function revealElements(root = document) {
-  if (!observer) return;
-
-  root.querySelectorAll(".reveal:not(.visible)").forEach(element => {
-    element.classList.add("pending");
-    observer.observe(element);
-  });
-}
-
-function renderFilters() {
-  filters.replaceChildren();
-
-  ["All", "AI / ML", "Research", "Software", "Systems"].forEach(category => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.textContent = category;
-    button.setAttribute(
-      "aria-pressed",
-      String(category === selectedCategory)
-    );
-
-    button.addEventListener("click", () => {
-      selectedCategory = category;
-
-      filters.querySelectorAll("button").forEach(item => {
-        item.setAttribute(
-          "aria-pressed",
-          String(item.textContent === selectedCategory)
-        );
-      });
-
-      renderProjects();
-    });
-
-    filters.append(button);
-  });
-}
-
-function renderProjects() {
-  if (observer) {
-    grid.querySelectorAll(".reveal").forEach(element => {
-      observer.unobserve(element);
-    });
-  }
-
-  grid.replaceChildren();
-
-  projects
-    .filter(project =>
-      selectedCategory === "All" ||
-      project.category === selectedCategory
-    )
-    .forEach(project => {
-      const card = document.createElement("button");
-      card.type = "button";
-      card.className = "project-card reveal";
-      card.setAttribute("aria-haspopup", "dialog");
-      card.setAttribute(
-        "aria-label",
-        "Read details about " + project.title
-      );
-
-      const top = document.createElement("div");
-      top.className = "project-top";
-
-      const category = document.createElement("span");
-      category.className = "project-category";
-      category.textContent = project.category;
-
-      const mark = document.createElement("span");
-      mark.className = "project-mark";
-      mark.textContent = "+";
-      mark.setAttribute("aria-hidden", "true");
-
-      top.append(category, mark);
-
-      const title = document.createElement("h3");
-      title.textContent = project.title;
-
-      const description = document.createElement("p");
-      description.textContent = project.description;
-
-      const tags = document.createElement("div");
-      tags.className = "tags";
-      project.tags.forEach(tag => tags.append(makeTag(tag)));
-
-      const bottom = document.createElement("div");
-      bottom.className = "project-bottom";
-
-      const status = document.createElement("span");
-      status.textContent = project.status;
-
-      const details = document.createElement("span");
-      details.className = "details-label";
-      details.textContent = "View details";
-
-      bottom.append(status, details);
-      card.append(top, title, description, tags, bottom);
-
-      card.addEventListener("click", () => {
-        lastProjectButton = card;
-        openProject(project);
-      });
-
-      grid.append(card);
-    });
-
-  revealElements(grid);
-}
-
-function openProject(project) {
-  document.getElementById("dialog-category").textContent =
-    project.category;
-
-  document.getElementById("dialog-title").textContent =
-    project.title;
-
-  document.getElementById("dialog-status").textContent =
-    project.status;
-
-  document.getElementById("dialog-description").textContent =
-    project.description;
-
-  document.getElementById("dialog-implementation").textContent =
-    project.implementation;
-
-  document.getElementById("dialog-scope").textContent =
-    project.scope;
-
-  document.getElementById("dialog-tags").replaceChildren(
-    ...project.tags.map(makeTag)
-  );
-
-  const source = document.getElementById("dialog-source");
-  source.hidden = !project.url;
-
-  if (project.url) {
-    source.href = project.url;
-  } else {
-    source.removeAttribute("href");
-  }
-
-  dialog.showModal();
-  dialog.scrollTop = 0;
-}
-
-document.getElementById("close-dialog").addEventListener("click", () => {
-  dialog.close();
-});
-
-dialog.addEventListener("close", () => {
-  if (lastProjectButton?.isConnected) {
-    lastProjectButton.focus({ preventScroll: true });
-  }
-});
-
-document.getElementById("dialog-contact").addEventListener("click", event => {
-  event.preventDefault();
-  dialog.close();
-
-  const contact = document.getElementById("contact");
-
-  contact.scrollIntoView({
-    behavior: reduceMotion.matches ? "auto" : "smooth"
-  });
-
-  document.querySelector('#contact-form input[name="name"]')
-    .focus({ preventScroll: true });
-});
-
-dialog.addEventListener("click", event => {
-  if (event.target !== dialog) return;
-
-  const bounds = dialog.getBoundingClientRect();
-
-  if (
-    event.clientX < bounds.left ||
-    event.clientX > bounds.right ||
-    event.clientY < bounds.top ||
-    event.clientY > bounds.bottom
-  ) {
-    dialog.close();
-  }
-});
-
-const menuToggle = document.getElementById("menu-toggle");
-const navigation = document.getElementById("navigation");
-
-function closeMenu() {
-  navigation.classList.remove("open");
-  menuToggle.setAttribute("aria-expanded", "false");
-  menuToggle.textContent = "Menu";
-}
-
-menuToggle.addEventListener("click", () => {
-  const open = navigation.classList.toggle("open");
-  menuToggle.setAttribute("aria-expanded", String(open));
-  menuToggle.textContent = open ? "Close" : "Menu";
-});
-
-navigation.querySelectorAll("a").forEach(link => {
-  link.addEventListener("click", closeMenu);
-});
-
-document.addEventListener("keydown", event => {
-  if (
-    event.key === "Escape" &&
-    navigation.classList.contains("open")
-  ) {
-    closeMenu();
-    menuToggle.focus();
-  }
-});
-
-document.getElementById("contact-form")
-  .addEventListener("submit", event => {
-    event.preventDefault();
-
-    const data = new FormData(event.currentTarget);
-
-    const subject = encodeURIComponent(
-      String(data.get("subject"))
-    );
-
-    const body = encodeURIComponent(
-      "From: " + data.get("name") +
-      " <" + data.get("email") + ">\n\n" +
-      data.get("message")
-    );
-
-    document.getElementById("contact-status").textContent =
-      "Email draft requested. Send it from your email app. " +
-      "If nothing opens, use the direct email link.";
-
-    window.location.href =
-      "mailto:gurshabadsingh@ucmerced.edu?subject=" +
-      subject + "&body=" + body;
-  });
-
-document.getElementById("year").textContent =
-  new Date().getFullYear();
-
-renderFilters();
-renderProjects();
-revealElements();
-
-reduceMotion.addEventListener("change", event => {
-  if (event.matches && observer) {
-    observer.disconnect();
-
-    document.querySelectorAll(".pending").forEach(element => {
-      element.classList.remove("pending");
-    });
-  }
-});
-</script>
+  </dialog>
 </body>
 </html>
