@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta name="description" content="Small browser games built by Gurshabad Singh.">
+  <title>Mini Games | Gurshabad Singh</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="games.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header>
+    <div class="container header-inner">
+      <a class="logo" href="index.html" aria-label="Gurshabad Singh home">
+        Gur<span>.</span>
+      </a>
+
+      <nav id="navigation" aria-label="Main navigation">
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#research">Research</a>
+        <a href="index.html#about">About</a>
+        <a href="games.html" aria-current="page">Mini Games</a>
+        <a class="contact-link" href="index.html#contact">Contact</a>
+      </nav>
+
+      <button
+        class="menu-button"
+        id="menu-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="navigation">
+        Menu
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="container games-main">
+    <div class="games-intro">
+      <p class="eyebrow">Small experiments in interactive programming</p>
+      <h1>Mini Games</h1>
+
+      <p class="games-description">
+        A collection of browser games I’m building.
+        Simple rules, a little competition, and room to experiment.
+      </p>
+    </div>
+
+    <div class="games-grid">
+
+      <!-- When ready, replace the status span with the Play link below. -->
+      <article class="game-card">
+        <div class="game-heading">
+          <span class="game-number">01</span>
+          <span class="game-category">Arcade</span>
+        </div>
+
+        <h2>Flappy Bird</h2>
+        <p>
+          Keep flying, clear the obstacles, and see how far you can go.
+        </p>
+
+        <div class="game-footer">
+          <span class="game-status">In development</span>
+
+          <!-- Enable after creating games/flappy-bird.html:
+          <a class="button primary" href="games/flappy-bird.html">
+            Play game
+          </a>
+          -->
+        </div>
+      </article>
+
+      <article class="game-card">
+        <div class="game-heading">
+          <span class="game-number">02</span>
+          <span class="game-category">Strategy</span>
+        </div>
+
+        <h2>Tic-Tac-Toe</h2>
+        <p>
+          Three in a row. Take turns, block your opponent, and find a win.
+        </p>
+
+        <div class="game-footer">
+          <span class="game-status">In development</span>
+
+          <!-- Enable after creating games/tic-tac-toe.html:
+          <a class="button primary" href="games/tic-tac-toe.html">
+            Play game
+          </a>
+          -->
+        </div>
+      </article>
+
+      <article class="game-card">
+        <div class="game-heading">
+          <span class="game-number">03</span>
+          <span class="game-category">Strategy</span>
+        </div>
+
+        <h2>Connect Four</h2>
+        <p>
+          Drop your pieces and connect four horizontally, vertically,
+          or diagonally.
+        </p>
+
+        <div class="game-footer">
+          <span class="game-status">In development</span>
+
+          <!-- Enable after creating games/connect-four.html:
+          <a class="button primary" href="games/connect-four.html">
+            Play game
+          </a>
+          -->
+        </div>
+      </article>
+
+    </div>
+
+    <a class="games-back" href="index.html">Back to portfolio</a>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="logo" href="index.html" aria-label="Back to home">
+        Gur<span>.</span>
+      </a>
+
+      <span>© <span id="year">2026</span> Gurshabad Singh</span>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </footer>
+
+  <!-- This page has its own small script.
+       Don't load the portfolio's script.js here. -->
+  <script>
+    const menu = document.getElementById("menu-button");
+    const navigation = document.getElementById("navigation");
+
+    function closeMenu() {
+      navigation.classList.remove("open");
+      menu.setAttribute("aria-expanded", "false");
+      menu.textContent = "Menu";
+    }
+
+    menu.addEventListener("click", () => {
+      const open = navigation.classList.toggle("open");
+      menu.setAttribute("aria-expanded", String(open));
+      menu.textContent = open ? "Close" : "Menu";
+    });
+
+    navigation.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" &&
+          navigation.classList.contains("open")) {
+        closeMenu();
+        menu.focus();
+      }
+    });
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+</body>
+</html>
