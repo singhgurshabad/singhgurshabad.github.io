@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0b0b">
+  <title>Connect Four | Gurshabad Singh</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0b0b;
+      --panel: #141414;
+      --line: #303030;
+      --yellow: #fdc500;
+      --text: #eeeeee;
+      --muted: #a2a2a2;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+    }
+
+    button, select { font: inherit; }
+
+    a { color: inherit; }
+
+    header {
+      max-width: 1000px;
+      margin: auto;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      color: var(--yellow);
+      font-size: 25px;
+      font-weight: 800;
+      text-decoration: none;
+      letter-spacing: -1px;
+    }
+
+    .back {
+      color: var(--muted);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .back:hover { color: var(--yellow); }
+
+    main {
+      max-width: 600px;
+      margin: 24px auto 60px;
+      padding: 0 20px;
+      animation: enter 450ms ease-out;
+    }
+
+    .eyebrow {
+      color: var(--yellow);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 12px 0;
+      font-size: clamp(34px, 7vw, 48px);
+      letter-spacing: -2px;
+    }
+
+    .intro, .help {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .settings {
+      display: flex;
+      gap: 12px;
+      margin: 25px 0 18px;
+    }
+
+    label {
+      flex: 1;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    select {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+    }
+
+    select:disabled { opacity: .45; }
+
+    .scores {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .score {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      text-align: center;
+      background: var(--panel);
+    }
+
+    .score span {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .score strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 24px;
+    }
+
+    .score:first-child strong { color: var(--yellow); }
+
+    .status {
+      min-height: 26px;
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .arena {
+      position: relative;
+      padding-top: 44px;
+    }
+
+    .controls {
+      position: absolute;
+      inset: 0 10px auto;
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .column-button {
+      height: 34px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 160ms, border-color 160ms, background 160ms;
+    }
+
+    .column-button:hover:not(:disabled) {
+      color: var(--yellow);
+      border-color: var(--yellow);
+      background: #24200e;
+    }
+
+    .column-button:disabled {
+      opacity: .35;
+      cursor: default;
+    }
+
+    button:focus-visible, select:focus-visible, a:focus-visible {
+      outline: 2px solid var(--yellow);
+      outline-offset: 4px;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #191919;
+    }
+
+    .slot {
+      aspect-ratio: 1;
+      min-width: 0;
+      border: 1px solid #333;
+      border-radius: 50%;
+      background: #080808;
+      box-shadow: inset 0 3px 8px #0008;
+    }
+
+    .slot.yellow, .falling-chip.yellow {
+      background: var(--yellow);
+      border-color: #e5b300;
+      box-shadow: inset 0 -5px 0 #0002;
+    }
+
+    .slot.white, .falling-chip.white {
+      background: #e8e8e8;
+      border-color: #bdbdbd;
+      box-shadow: inset 0 -5px 0 #0002;
+    }
+
+    .slot.winner {
+      outline: 3px solid var(--text);
+      outline-offset: -5px;
+    }
+
+    .slot.last {
+      box-shadow: inset 0 0 0 3px #0004;
+    }
+
+    .falling-chip {
+      position: absolute;
+      border: 1px solid;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 5;
+      will-change: transform;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .actions button {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .actions .primary {
+      background: var(--yellow);
+      border-color: var(--yellow);
+      color: #111;
+      font-weight: 700;
+    }
+
+    .actions button:hover { filter: brightness(1.12); }
+
+    .help {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 420px) {
+      header { padding: 20px; }
+      main { padding: 0 14px; }
+      .board { gap: 5px; padding: 7px; }
+      .controls { left: 7px; right: 7px; gap: 5px; }
+      .score { padding: 12px 5px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a class="logo" href="../index.html" aria-label="Portfolio home">Gur.</a>
+    <a class="back" href="../games.html">← Mini Games</a>
+  </header>
+
+  <main>
+    <div class="eyebrow">Mini Games / Strategy</div>
+    <h1>Connect Four<span style="color:var(--yellow)">.</span></h1>
+    <p class="intro">
+      Four in a row. Any direction. Play against the computer
+      or challenge a friend on the same screen.
+    </p>
+
+    <div class="settings">
+      <label>
+        Game mode
+        <select id="mode">
+          <option value="computer">Vs. computer</option>
+          <option value="friend">Two players</option>
+        </select>
+      </label>
+
+      <label>
+        Difficulty
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="scores" aria-label="Session scores">
+      <div class="score">
+        <span>YELLOW</span>
+        <strong id="yellow-score">0</strong>
+      </div>
+      <div class="score">
+        <span>DRAWS</span>
+        <strong id="draw-score">0</strong>
+      </div>
+      <div class="score">
+        <span>WHITE</span>
+        <strong id="white-score">0</strong>
+      </div>
+    </div>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <div id="arena" class="arena">
+      <div id="controls" class="controls" aria-label="Choose a column"></div>
+      <div id="board" class="board" role="img" aria-label="Empty Connect Four board"></div>
+    </div>
+
+    <div class="actions">
+      <button id="new-round" class="primary" type="button">New round</button>
+      <button id="reset-scores" type="button">Reset scores</button>
+    </div>
+
+    <p class="help">
+      Click a column number or press keys 1–7. Yellow goes first.
+    </p>
+  </main>
+
+  <script>
+    const ROWS = 6;
+    const COLS = 7;
+    const YELLOW = 1;
+    const WHITE = 2;
+    const ORDER = [3, 2, 4, 1, 5, 0, 6];
+
+    const arena = document.getElementById("arena");
+    const boardElement = document.getElementById("board");
+    const controlsElement = document.getElementById("controls");
+    const statusElement = document.getElementById("status");
+    const mode = document.getElementById("mode");
+    const difficulty = document.getElementById("difficulty");
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+    const scoreElements = {
+      yellow: document.getElementById("yellow-score"),
+      white: document.getElementById("white-score"),
+      draw: document.getElementById("draw-score")
+    };
+
+    const scores = { yellow: 0, white: 0, draw: 0 };
+    const slots = [];
+    const buttons = [];
+
+    let board;
+    let currentPlayer;
+    let gameOver = false;
+    let busy = false;
+    let roundId = 0;
+    let lastMove = null;
+    let winningCells = new Set();
+    let computerTimer = null;
+    let activeAnimation = null;
+    let activeChip = null;
+
+    // Build the board once. Each slot stays in the same place.
+    for (let row = 0; row < ROWS; row++) {
+      slots[row] = [];
+
+      for (let col = 0; col < COLS; col++) {
+        const slot = document.createElement("div");
+        slot.className = "slot";
+        slot.setAttribute("aria-hidden", "true");
+        boardElement.appendChild(slot);
+        slots[row][col] = slot;
+      }
+    }
+
+    for (let col = 0; col < COLS; col++) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "column-button";
+      button.textContent = col + 1;
+      button.setAttribute("aria-label", `Drop chip in column ${col + 1}`);
+      button.addEventListener("click", () => handleColumn(col));
+      controlsElement.appendChild(button);
+      buttons.push(button);
+    }
+
+    function validColumns() {
+      return ORDER.filter(col => board[0][col] === 0);
+    }
+
+    function findRow(col) {
+      for (let row = ROWS - 1; row >= 0; row--) {
+        if (board[row][col] === 0) return row;
+      }
+      return -1;
+    }
+
+    function getWin() {
+      const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+
+      for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+          const player = board[row][col];
+          if (!player) continue;
+
+          for (const [dr, dc] of directions) {
+            const endRow = row + dr * 3;
+            const endCol = col + dc * 3;
+
+            if (
+              endRow < 0 || endRow >= ROWS ||
+              endCol < 0 || endCol >= COLS
+            ) continue;
+
+            const cells = [];
+
+            for (let i = 0; i < 4; i++) {
+              const r = row + dr * i;
+              const c = col + dc * i;
+
+              if (board[r][c] !== player) break;
+              cells.push(`${r},${c}`);
+            }
+
+            if (cells.length === 4) return { player, cells };
+          }
+        }
+      }
+
+      return null;
+    }
+
+    function render() {
+      const description = [];
+
+      for (let row = 0; row < ROWS; row++) {
+        const rowDescription = [];
+
+        for (let col = 0; col < COLS; col++) {
+          const slot = slots[row][col];
+          const value = board[row][col];
+
+          slot.className = "slot";
+
+          if (value === YELLOW) slot.classList.add("yellow");
+          if (value === WHITE) slot.classList.add("white");
+
+          if (winningCells.has(`${row},${col}`)) {
+            slot.classList.add("winner");
+          }
+
+          if (lastMove?.row === row && lastMove?.col === col) {
+            slot.classList.add("last");
+          }
+
+          rowDescription.push(
+            value === YELLOW ? "yellow" :
+            value === WHITE ? "white" : "empty"
+          );
+        }
+
+        description.push(`Row ${row + 1}: ${rowDescription.join(", ")}`);
+      }
+
+      boardElement.setAttribute("aria-label", description.join(". "));
+
+      buttons.forEach((button, col) => {
+        button.disabled = busy || gameOver || board[0][col] !== 0;
+      });
+    }
+
+    function updateScores() {
+      Object.keys(scores).forEach(key => {
+        scoreElements[key].textContent = scores[key];
+      });
+    }
+
+    function updateTurnStatus() {
+      if (mode.value === "computer") {
+        statusElement.textContent = "Your turn — yellow.";
+      } else {
+        statusElement.textContent =
+          currentPlayer === YELLOW ? "Yellow's turn." : "White's turn.";
+      }
+    }
+
+    // Animate a separate chip above the board.
+    // The real slot is filled only after the chip lands.
+    async function animateDrop(row, col, player) {
+      if (reducedMotion.matches) return;
+
+      const target = slots[row][col].getBoundingClientRect();
+      const topSlot = slots[0][col].getBoundingClientRect();
+      const bounds = arena.getBoundingClientRect();
+
+      const chip = document.createElement("div");
+      chip.className = `falling-chip ${player === YELLOW ? "yellow" : "white"}`;
+      chip.setAttribute("aria-hidden", "true");
+
+      chip.style.width = `${target.width}px`;
+      chip.style.height = `${target.height}px`;
+      chip.style.left = `${target.left - bounds.left}px`;
+      chip.style.top = `${target.top - bounds.top}px`;
+
+      arena.appendChild(chip);
+      activeChip = chip;
+
+      const startY = topSlot.top - target.top - target.height - 8;
+      const duration = 300 + row * 55;
+
+      const animation = chip.animate(
+        [
+          {
+            transform: `translateY(${startY}px)`,
+            offset: 0,
+            easing: "cubic-bezier(.42, 0, 1, 1)"
+          },
+          {
+            transform: "translateY(0)",
+            offset: 0.8,
+            easing: "ease-out"
+          },
+          {
+            transform: "translateY(-7px)",
+            offset: 0.9,
+            easing: "ease-in"
+          },
+          {
+            transform: "translateY(0)",
+            offset: 1
+          }
+        ],
+        { duration, fill: "forwards" }
+      );
+
+      activeAnimation = animation;
+
+      try {
+        await animation.finished;
+      } catch {
+        // New round can cancel an unfinished animation.
+      } finally {
+        chip.remove();
+        if (activeChip === chip) activeChip = null;
+        if (activeAnimation === animation) activeAnimation = null;
+      }
+    }
+
+    async function playMove(col, player, token) {
+      const row = findRow(col);
+      if (row < 0) return false;
+
+      busy = true;
+      render();
+
+      statusElement.textContent =
+        player === YELLOW ? "Yellow is dropping…" : "White is dropping…";
+
+      await animateDrop(row, col, player);
+
+      // Ignore a move if the user restarted during its animation.
+      if (token !== roundId) return false;
+
+      board[row][col] = player;
+      lastMove = { row, col };
+
+      const win = getWin();
+
+      if (win) {
+        gameOver = true;
+        busy = false;
+        winningCells = new Set(win.cells);
+
+        if (player === YELLOW) {
+          scores.yellow++;
+          statusElement.textContent =
+            mode.value === "computer" ? "You win! Four connected." : "Yellow wins!";
+        } else {
+          scores.white++;
+          statusElement.textContent =
+            mode.value === "computer" ? "Computer wins. Try another round." : "White wins!";
+        }
+
+        updateScores();
+        render();
+        return true;
+      }
+
+      if (validColumns().length === 0) {
+        gameOver = true;
+        busy = false;
+        scores.draw++;
+        statusElement.textContent = "A draw. The board is full.";
+        updateScores();
+        render();
+        return true;
+      }
+
+      render();
+      return false;
+    }
+
+    async function handleColumn(col) {
+      if (busy || gameOver || board[0][col] !== 0) return;
+
+      const token = roundId;
+      const ended = await playMove(col, currentPlayer, token);
+
+      if (token !== roundId || ended) return;
+
+      if (mode.value === "friend") {
+        currentPlayer = currentPlayer === YELLOW ? WHITE : YELLOW;
+        busy = false;
+        render();
+        updateTurnStatus();
+      } else {
+        currentPlayer = WHITE;
+        statusElement.textContent = "Computer is thinking…";
+
+        computerTimer = setTimeout(async () => {
+          computerTimer = null;
+          if (token !== roundId || gameOver) return;
+
+          const selectedColumn = chooseComputerMove();
+          const computerEnded = await playMove(selectedColumn, WHITE, token);
+
+          if (token !== roundId || computerEnded) return;
+
+          currentPlayer = YELLOW;
+          busy = false;
+          render();
+          updateTurnStatus();
+        }, 300);
+      }
+    }
+
+    function scoreWindow(values) {
+      const white = values.filter(value => value === WHITE).length;
+      const yellow = values.filter(value => value === YELLOW).length;
+      const empty = values.filter(value => value === 0).length;
+
+      if (white === 4) return 100000;
+      if (yellow === 4) return -100000;
+      if (white === 3 && empty === 1) return 100;
+      if (yellow === 3 && empty === 1) return -130;
+      if (white === 2 && empty === 2) return 12;
+      if (yellow === 2 && empty === 2) return -15;
+      return 0;
+    }
+
+    function evaluateBoard() {
+      let score = 0;
+
+      for (let row = 0; row < ROWS; row++) {
+        if (board[row][3] === WHITE) score += 6;
+        if (board[row][3] === YELLOW) score -= 6;
+      }
+
+      const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+
+      for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+          for (const [dr, dc] of directions) {
+            const endRow = row + dr * 3;
+            const endCol = col + dc * 3;
+
+            if (
+              endRow < 0 || endRow >= ROWS ||
+              endCol < 0 || endCol >= COLS
+            ) continue;
+
+            const values = [];
+
+            for (let i = 0; i < 4; i++) {
+              values.push(board[row + dr * i][col + dc * i]);
+            }
+
+            score += scoreWindow(values);
+          }
+        }
+      }
+
+      return score;
+    }
+
+    function minimax(depth, maximizing, alpha, beta) {
+      const win = getWin();
+
+      if (win) {
+        return win.player === WHITE
+          ? 1000000 + depth
+          : -1000000 - depth;
+      }
+
+      const valid = validColumns();
+      if (!valid.length) return 0;
+      if (depth === 0) return evaluateBoard();
+
+      let best = maximizing ? -Infinity : Infinity;
+      const player = maximizing ? WHITE : YELLOW;
+
+      for (const col of valid) {
+        const row = findRow(col);
+        board[row][col] = player;
+
+        const score = minimax(depth - 1, !maximizing, alpha, beta);
+        board[row][col] = 0;
+
+        if (maximizing) {
+          best = Math.max(best, score);
+          alpha = Math.max(alpha, best);
+        } else {
+          best = Math.min(best, score);
+          beta = Math.min(beta, best);
+        }
+
+        if (alpha >= beta) break;
+      }
+
+      return best;
+    }
+
+    function winningMove(player) {
+      for (const col of validColumns()) {
+        const row = findRow(col);
+        board[row][col] = player;
+        const win = getWin();
+        board[row][col] = 0;
+
+        if (win?.player === player) return col;
+      }
+
+      return null;
+    }
+
+    function randomItem(items) {
+      return items[Math.floor(Math.random() * items.length)];
+    }
+
+    function chooseComputerMove() {
+      const valid = validColumns();
+
+      if (difficulty.value === "easy") {
+        return randomItem(valid);
+      }
+
+      const win = winningMove(WHITE);
+      if (win !== null) return win;
+
+      const block = winningMove(YELLOW);
+      if (block !== null) return block;
+
+      const depth = difficulty.value === "hard" ? 5 : 3;
+      let bestScore = -Infinity;
+      let bestColumns = [];
+
+      for (const col of valid) {
+        const row = findRow(col);
+        board[row][col] = WHITE;
+
+        const score = minimax(depth - 1, false, -Infinity, Infinity);
+        board[row][col] = 0;
+
+        if (score > bestScore) {
+          bestScore = score;
+          bestColumns = [col];
+        } else if (score === bestScore) {
+          bestColumns.push(col);
+        }
+      }
+
+      return randomItem(bestColumns);
+    }
+
+    function newRound() {
+      roundId++;
+      clearTimeout(computerTimer);
+      computerTimer = null;
+
+      if (activeAnimation) activeAnimation.cancel();
+      if (activeChip) activeChip.remove();
+
+      activeAnimation = null;
+      activeChip = null;
+
+      board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+      currentPlayer = YELLOW;
+      gameOver = false;
+      busy = false;
+      lastMove = null;
+      winningCells = new Set();
+
+      render();
+      updateTurnStatus();
+    }
+
+    function resetScores() {
+      scores.yellow = 0;
+      scores.white = 0;
+      scores.draw = 0;
+      updateScores();
+      newRound();
+    }
+
+    document.getElementById("new-round").addEventListener("click", newRound);
+    document.getElementById("reset-scores").addEventListener("click", resetScores);
+
+    mode.addEventListener("change", () => {
+      difficulty.disabled = mode.value === "friend";
+      resetScores();
+    });
+
+    difficulty.addEventListener("change", resetScores);
+
+    document.addEventListener("keydown", event => {
+      if (
+        event.repeat ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.altKey ||
+        event.target.closest("input, select, textarea, [contenteditable]")
+      ) return;
+
+      if (/^[1-7]$/.test(event.key)) {
+        event.preventDefault();
+        handleColumn(Number(event.key) - 1);
+      }
+    });
+
+    newRound();
+  </script>
+</body>
+</html>
