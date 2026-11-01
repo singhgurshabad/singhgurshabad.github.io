@@ -346,7 +346,7 @@
     </div>
 
     <p class="help">
-      Click a column number or press keys 1–7. Yellow goes first.
+      Click a column number or press keys 1–7. Lavender goes first.
     </p>
   </main>
 
@@ -580,7 +580,7 @@
       render();
 
       statusElement.textContent =
-        player === YELLOW ? "Yellow is dropping…" : "White is dropping…";
+        player === YELLOW ? "Lavender is dropping…" : "White is dropping…";
 
       await animateDrop(row, col, player);
 
@@ -600,7 +600,7 @@
         if (player === YELLOW) {
           scores.yellow++;
           statusElement.textContent =
-            mode.value === "computer" ? "You win! Four connected." : "Yellow wins!";
+            mode.value === "computer" ? "You win! Four connected." : "Lavender wins!";
         } else {
           scores.white++;
           statusElement.textContent =
