@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0b0b">
+  <meta name="theme-color" content="#0b0b12">
   <title>Connect Four | Gurshabad Singh</title>
 
   <style>
     :root {
       color-scheme: dark;
-      --bg: #0b0b0b;
+      --bg: #0b0b12;
       --panel: #141414;
       --line: #303030;
-      --yellow: #fdc500;
+      --yellow: #c6b4f5;
       --text: #eeeeee;
       --muted: #a2a2a2;
     }
@@ -203,7 +203,7 @@
 
     .slot.yellow, .falling-chip.yellow {
       background: var(--yellow);
-      border-color: #e5b300;
+      border-color: #b49bdc;
       box-shadow: inset 0 -5px 0 #0002;
     }
 
@@ -282,9 +282,10 @@
       }
     }
   </style>
+<link rel="stylesheet" href="../night.css?v=4">
 </head>
 
-<body>
+<body class="arcade-page">
   <header>
     <a class="logo" href="../index.html" aria-label="Portfolio home">Gur.</a>
     <a class="back" href="../games.html">← Mini Games</a>
@@ -319,7 +320,7 @@
 
     <div class="scores" aria-label="Session scores">
       <div class="score">
-        <span>YELLOW</span>
+        <span>LAVENDER</span>
         <strong id="yellow-score">0</strong>
       </div>
       <div class="score">
@@ -479,7 +480,7 @@
           }
 
           rowDescription.push(
-            value === YELLOW ? "yellow" :
+            value === YELLOW ? "lavender" :
             value === WHITE ? "white" : "empty"
           );
         }
@@ -502,10 +503,10 @@
 
     function updateTurnStatus() {
       if (mode.value === "computer") {
-        statusElement.textContent = "Your turn — yellow.";
+        statusElement.textContent = "Your turn — lavender.";
       } else {
         statusElement.textContent =
-          currentPlayer === YELLOW ? "Yellow's turn." : "White's turn.";
+          currentPlayer === YELLOW ? "Lavender's turn." : "White's turn.";
       }
     }
 

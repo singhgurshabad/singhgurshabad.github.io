@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0b0b">
+  <meta name="theme-color" content="#0b0b12">
   <title>Flappy Bird | Gurshabad Singh</title>
 
   <style>
     :root {
       color-scheme: dark;
-      --bg: #0b0b0b;
+      --bg: #0b0b12;
       --panel: #151515;
       --line: #303030;
-      --yellow: #fdc500;
+      --yellow: #c6b4f5;
       --text: #eeeeee;
       --muted: #a2a2a2;
     }
@@ -130,7 +130,7 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
-      background: #0b0b0bcc;
+      background: #0b0b12cc;
       text-align: center;
     }
 
@@ -161,7 +161,7 @@
       cursor: pointer;
     }
 
-    button:hover { background: #ffd633; }
+    button:hover { background: #ddcfff; }
 
     button:focus-visible, a:focus-visible, canvas:focus-visible {
       outline: 2px solid var(--yellow);
@@ -201,9 +201,10 @@
       h1 { font-size: 36px; }
     }
   </style>
+<link rel="stylesheet" href="../night.css?v=4">
 </head>
 
-<body>
+<body class="arcade-page">
   <header>
     <a class="logo" href="../index.html" aria-label="Portfolio home">Gur.</a>
     <a class="back" href="../games.html">← Mini Games</a>
@@ -513,7 +514,7 @@
 
       ctx.stroke();
 
-      ctx.fillStyle = "#fdc500";
+      ctx.fillStyle = "#c6b4f5";
       ctx.globalAlpha = 0.22;
 
       for (let i = 0; i < 16; i++) {
@@ -538,7 +539,7 @@
       ctx.strokeRect(pipe.x + 0.5, bottomY, PIPE_WIDTH - 1, FLOOR - bottomY);
 
       // Yellow rims make each opening easy to read.
-      ctx.fillStyle = "#fdc500";
+      ctx.fillStyle = "#c6b4f5";
       ctx.fillRect(pipe.x - 4, pipe.gapTop - 12, PIPE_WIDTH + 8, 12);
       ctx.fillRect(pipe.x - 4, bottomY, PIPE_WIDTH + 8, 12);
 
@@ -556,7 +557,7 @@
       ctx.translate(bird.x, y);
       ctx.rotate(idle ? 0 : bird.angle);
 
-      ctx.fillStyle = "#fdc500";
+      ctx.fillStyle = "#c6b4f5";
       ctx.beginPath();
       ctx.ellipse(0, 0, 18, 14, 0, 0, Math.PI * 2);
       ctx.fill();
@@ -565,7 +566,7 @@
       ctx.save();
       ctx.translate(-5, 3);
       ctx.rotate(wingMotion);
-      ctx.fillStyle = "#bd9000";
+      ctx.fillStyle = "#9381c4";
       ctx.beginPath();
       ctx.ellipse(0, 0, 10, 6, -0.3, 0, Math.PI * 2);
       ctx.fill();
@@ -583,7 +584,7 @@
       ctx.fill();
 
       // Beak.
-      ctx.fillStyle = "#fff0aa";
+      ctx.fillStyle = "#eee6ff";
       ctx.beginPath();
       ctx.moveTo(15, 0);
       ctx.lineTo(26, 4);
@@ -602,7 +603,7 @@
 
       for (const particle of particles) {
         ctx.globalAlpha = particle.life / particle.maxLife;
-        ctx.fillStyle = "#fdc500";
+        ctx.fillStyle = "#c6b4f5";
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
         ctx.fill();
@@ -614,7 +615,7 @@
       // Floor with scrolling yellow marks.
       ctx.fillStyle = "#181818";
       ctx.fillRect(0, FLOOR, WIDTH, HEIGHT - FLOOR);
-      ctx.fillStyle = "#fdc500";
+      ctx.fillStyle = "#c6b4f5";
       ctx.fillRect(0, FLOOR, WIDTH, 3);
 
       ctx.globalAlpha = 0.25;

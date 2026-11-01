@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0b0b">
+  <meta name="theme-color" content="#0b0b12">
   <meta name="description" content="Gurshabad Singh — software engineering, machine learning projects, and research in computer vision and cognitive science.">
   <title>Gurshabad Singh | SWE & Research</title>
-  <link rel="stylesheet" href="style.css?v=editorial-3">
-  <script src="motion.js?v=editorial-3" defer></script>
-  <script src="script.js?v=editorial-3" defer></script>
-  <link rel="stylesheet" href="editorial.css?v=3">
+  <link rel="stylesheet" href="style.css?v=night-4">
+  <script src="motion.js?v=night-4" defer></script>
+  <script src="script.js?v=night-4" defer></script>
+  <script src="lab.js?v=4" defer></script>
+  <link rel="stylesheet" href="editorial.css?v=4">
+<link rel="stylesheet" href="night.css?v=4">
 </head>
 
 <body>
@@ -39,12 +41,13 @@
 
   <main id="main">
     <section class="hero container">
+      <svg class="hero-network" viewBox="0 0 900 440" fill="none" aria-hidden="true"><g stroke="currentColor"><path d="M70 60L310 120L570 45L820 200M70 210L310 120L570 245L820 200M70 360L310 290L570 245L820 370M70 60L310 290L570 410L820 200M310 120L570 410M310 290L570 45"/><path class="network-flow" d="M70 210L310 120L570 245L820 200"/></g><g fill="currentColor"><circle cx="70" cy="60" r="3"/><circle cx="70" cy="210" r="3"/><circle cx="70" cy="360" r="3"/><circle cx="310" cy="120" r="4"/><circle cx="310" cy="290" r="4"/><circle cx="570" cy="45" r="3"/><circle cx="570" cy="245" r="4"/><circle cx="570" cy="410" r="3"/><circle cx="820" cy="200" r="5"/><circle cx="820" cy="370" r="3"/></g></svg>
       <div class="hero-grid">
         <div class="hero-intro">
-          <p class="eyebrow">Gurshabad Singh / Selected portfolio</p>
+          <p class="eyebrow">Gurshabad Singh / Engineering intelligence</p>
           <h1 class="motion-title">Gurshabad <span class="title-accent">Singh.</span></h1>
           <p class="gurmukhi" lang="pa">ਗੁਰਸ਼ਬਦ ਸਿੰਘ</p>
-          <p class="hero-role">An engineer’s mind.<br><em>A researcher’s curiosity.</em></p>
+          <p class="hero-role">Building intelligence.<br><em>Staying curious.</em></p>
 
           <p class="hero-description">
             I’m a UC Merced undergraduate building software and studying
@@ -90,7 +93,7 @@
       </div>
 
       <div class="hero-footer">
-        <span>UC Merced · Class of 2028</span>
+        <span class="merced-mark"><i aria-hidden="true"></i> UC MERCED / CLASS OF 2028</span>
         <span>Software engineering & AI research opportunities</span>
       </div>
     </section>
@@ -105,6 +108,26 @@
       </div>
       <div class="discipline-window" aria-hidden="true">
         <div class="discipline-track">SOFTWARE <span>/</span> INTELLIGENCE <span>/</span> PEOPLE <span>/</span></div>
+      </div>
+    </section>
+
+    <section class="section container neural-lab" id="lab" aria-labelledby="lab-heading">
+      <div class="lab-copy">
+        <p class="eyebrow">Live experiment / 001</p>
+        <h2 id="lab-heading">Learning is<br><em>an iterative art.</em></h2>
+        <p>A small model. A visible decision. Train a logistic classifier on two clusters and watch its boundary learn to separate them.</p>
+        <button class="button primary" id="train-model" type="button">Train the model <span aria-hidden="true">+</span></button>
+        <p id="model-status" role="status">Untrained · 0 steps</p>
+      </div>
+      <div class="model-stage">
+        <div class="model-topline"><span>FEATURE SPACE / 2D</span><span id="model-loss">LOSS —</span></div>
+        <svg id="model-plot" viewBox="0 0 440 320" role="img" aria-label="Two clusters of data points and a trainable decision boundary">
+          <defs><pattern id="plot-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="currentColor" stroke-opacity=".1"/></pattern></defs>
+          <rect width="440" height="320" fill="url(#plot-grid)"/>
+          <path id="decision-boundary" d="M220 0V320" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 5"/>
+          <g id="model-points"></g>
+        </svg>
+        <div class="model-legend"><span><i></i> CLASS 0</span><span><i></i> CLASS 1</span><span>LOGISTIC REGRESSION · RUNS IN YOUR BROWSER</span></div>
       </div>
     </section>
 
@@ -225,6 +248,7 @@
         </div>
 
         <aside class="about-aside">
+          <div class="campus-note"><span class="campus-monogram">UC <em>Merced.</em></span><p>Computer Science & Engineering<br>Cognitive Science / Class of 2028</p><svg viewBox="0 0 340 85" fill="none" aria-hidden="true"><path d="M0 70Q70 35 125 60T230 40T340 55" stroke="#b8a16c"/><path d="M0 80Q80 50 160 70T340 65" stroke="#52698e"/><path d="M280 12V35M268 23H292" stroke="#b8a16c"/></svg><span>ROOTED IN THE SAN JOAQUIN VALLEY</span></div>
           <h3>Leadership & experience</h3>
           <ul>
             <li><strong>Panjabi Students’ Union</strong>President · UC Merced</li>
@@ -311,6 +335,15 @@
       </div>
     </section>
   </main>
+
+  <section class="container sword-section" aria-label="A personal detail">
+      <div><p class="eyebrow">Beyond the code</p><h2>Discipline. Curiosity.<br><em>A little adventure.</em></h2><p>Research at UC Merced. Tabla after hours.<br>And always a soft spot for the Grand Line.</p></div>
+      <button class="sword-trigger" id="sword-trigger" type="button" aria-label="Discover the white and lavender blade Easter egg" aria-haspopup="dialog">
+        <svg viewBox="0 0 640 160" fill="none" aria-hidden="true"><defs><linearGradient id="blade-light"><stop stop-color="#f5f1ff"/><stop offset=".5" stop-color="#af99de"/><stop offset="1" stop-color="#fff"/></linearGradient></defs><path d="M195 88Q390 110 590 47Q430 124 195 103Z" fill="url(#blade-light)"/><path d="M195 88Q390 110 590 47" stroke="#fff"/><path d="M48 84L180 89L180 108L48 103Z" fill="#ede6fa"/><path d="M60 85l15 19m5-18l15 19m5-18l15 19m5-18l15 19m5-18l15 19m5-18l15 19" stroke="#9580bc" stroke-width="4"/><path d="M181 73L195 72L201 119L184 120Z" fill="#c3adeb"/><path d="M39 83L49 83L49 104L39 104Z" fill="#b9a2df"/><path d="M200 111Q400 145 570 100" stroke="#9f87d5" stroke-opacity=".2"/></svg>
+        <span>WHITE / LAVENDER · A HIDDEN TRIBUTE</span>
+      </button>
+    </section>
+    <dialog id="sword-dialog" aria-labelledby="sword-title"><div class="dialog-inner"><button type="button" class="close-dialog" id="close-sword" aria-label="Close Easter egg">×</button><p class="eyebrow">You found the Grand Line.</p><h2 id="sword-title">A quiet kind of resolve.</h2><p class="dialog-description">Zoro is my favorite. This white-and-lavender blade is a personal tribute inspired by Ame no Habakiri—Oden’s sword, entrusted to Momonosuke. Different swordsman. Same love for the adventure.</p><p class="metadata">An original illustration for a One Piece fan. Keep exploring.</p></div></dialog>
 
   <footer>
     <div class="container footer-inner">
