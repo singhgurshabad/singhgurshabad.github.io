@@ -134,3 +134,10 @@ nav a[aria-current="page"]::after {
     min-height: 270px;
   }
 }
+
+.game-card { position: relative; isolation: isolate; }
+.game-card > * { position: relative; }
+.game-card:hover { transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px); }
+@media (prefers-reduced-motion: reduce) {
+  .game-card:hover { transform: none; }
+}

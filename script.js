@@ -102,7 +102,6 @@ const projects = [
 
 const $ = selector => document.querySelector(selector);
 const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
-const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
 
 const grid = $("#project-grid");
 const filters = $("#filters");
@@ -165,49 +164,6 @@ function renderFilters() {
   });
 }
 
-/* Card spotlight and restrained tilt */
-function attachCardEffects(card) {
-  let frame = null;
-  let point = null;
-
-  card.addEventListener("pointermove", event => {
-    if (
-      event.pointerType !== "mouse" ||
-      !finePointer.matches ||
-      motionPreference.matches
-    ) return;
-
-    point = { x: event.clientX, y: event.clientY };
-    if (frame !== null) return;
-
-    frame = requestAnimationFrame(() => {
-      frame = null;
-
-      const bounds = card.getBoundingClientRect();
-      const x = point.x - bounds.left;
-      const y = point.y - bounds.top;
-
-      card.style.setProperty("--mx", `${x}px`);
-      card.style.setProperty("--my", `${y}px`);
-      card.style.setProperty(
-        "--rx",
-        `${-(y / bounds.height - 0.5) * 3}deg`
-      );
-      card.style.setProperty(
-        "--ry",
-        `${(x / bounds.width - 0.5) * 3}deg`
-      );
-    });
-  });
-
-  card.addEventListener("pointerleave", () => {
-    if (frame !== null) cancelAnimationFrame(frame);
-    frame = null;
-    card.style.setProperty("--rx", "0deg");
-    card.style.setProperty("--ry", "0deg");
-  });
-}
-
 function renderProjects() {
   if (revealObserver) {
     grid.querySelectorAll(".reveal").forEach(element => {
@@ -221,10 +177,11 @@ function renderProjects() {
     category === "All" || project.category === category
   );
 
-  visible.forEach(project => {
+  visible.forEach((project, index) => {
     const card = document.createElement("button");
     card.type = "button";
-    card.className = "project-card reveal";
+    card.className = "project-card scroll-card";
+    card.style.setProperty("--reveal-delay", `${index % 2 * 80}ms`);
     card.setAttribute("aria-haspopup", "dialog");
     card.setAttribute("aria-label", `Read details about ${project.title}`);
 
@@ -263,21 +220,37 @@ function renderProjects() {
     details.textContent = "View details";
 
     bottom.append(status, details);
-    card.append(top, title, description, tags, bottom);
+    const number = document.createElement("span");
+    number.className = "work-number";
+    number.textContent = String(projects.indexOf(project) + 1).padStart(2, "0");
+    number.setAttribute("aria-hidden", "true");
+    const content = document.createElement("div");
+    content.className = "work-content";
+    content.append(top, title, description, tags, bottom);
+    card.append(number, content);
+    if (projects.indexOf(project) < 2) {
+      const art = document.createElement("div");
+      art.className = "work-art " + (project.title === "ScholarChat" ? "art-scholar" : "art-rally");
+      art.setAttribute("aria-hidden", "true");
+      art.innerHTML = project.title === "ScholarChat"
+        ? `<div class="art-caption">SCHOLARCHAT / LOCAL INTELLIGENCE</div><div class="paper-stack"><span>RESEARCH<br>IN CONTEXT.</span><i></i><i></i><i></i></div><div class="art-footnote">DOCUMENT → RETRIEVAL → INSIGHT</div>`
+        : `<div class="art-caption">D-RALLY / MOTION STUDIES</div><svg viewBox="0 0 400 200" fill="none"><path d="M0 160L400 80M0 190L400 110M40 200L400 140M0 130L400 50" stroke="currentColor" opacity=".16"/><path d="M110 45L142 65L170 110L225 95L270 140M142 65L115 105L65 115M170 110L145 160L180 190M170 110L215 150L260 175" stroke="currentColor" stroke-width="3"/><path d="M100 35h20v20h-20zM132 55h20v20h-20zM160 100h20v20h-20zM215 85h20v20h-20zM105 95h20v20h-20zM135 150h20v20h-20zM205 140h20v20h-20z" fill="currentColor"/></svg><div class="art-footnote">COMPUTER VISION / HUMAN COORDINATION</div>`;
+      card.append(art);
+      card.classList.add("featured-work");
+    }
 
     card.addEventListener("click", () => {
       lastProjectButton = card;
       openProject(project);
     });
 
-    attachCardEffects(card);
     grid.append(card);
   });
 
   $("#project-count").textContent =
     `${visible.length} projects shown${category === "All" ? "" : ` in ${category}`}.`;
 
-  observeReveals(grid);
+  document.dispatchEvent(new Event("motion:refresh"));
 }
 
 /* Project dialogs */
@@ -298,9 +271,44 @@ function openProject(project) {
 
   dialog.showModal();
   dialog.scrollTop = 0;
+  animateProjectDialog(true);
 }
 
-$("#close-dialog").addEventListener("click", () => dialog.close());
+let dialogAnimation = null;
+let dialogClosing = false;
+
+function animateProjectDialog(opening) {
+  dialogAnimation?.cancel();
+  if (motionPreference.matches || !lastProjectButton?.isConnected) return null;
+  const card = lastProjectButton.getBoundingClientRect();
+  const panel = dialog.getBoundingClientRect();
+  const origin = {
+    opacity: 0,
+    transform: `translate(${card.left + card.width / 2 - panel.left - panel.width / 2}px, ${card.top + card.height / 2 - panel.top - panel.height / 2}px) scale(${Math.min(card.width / panel.width, 1)}, ${Math.min(card.height / panel.height, 1)})`,
+    borderRadius: "16px"
+  };
+  const expanded = { opacity: 1, transform: "translate(0, 0) scale(1)", borderRadius: "7px" };
+  dialogAnimation = dialog.animate(opening ? [origin, expanded] : [expanded, origin], {
+    duration: opening ? 520 : 260,
+    easing: opening ? "cubic-bezier(.16,1,.3,1)" : "cubic-bezier(.4,0,1,1)"
+  });
+  return dialogAnimation;
+}
+
+function closeProject() {
+  if (dialogClosing || !dialog.open) return;
+  dialogClosing = true;
+  const animation = animateProjectDialog(false);
+  const finish = () => { dialog.close(); dialogClosing = false; };
+  if (animation) animation.finished.then(finish, finish);
+  else finish();
+}
+
+$("#close-dialog").addEventListener("click", closeProject);
+dialog.addEventListener("cancel", event => {
+  event.preventDefault();
+  closeProject();
+});
 
 dialog.addEventListener("close", () => {
   if (lastProjectButton?.isConnected) {
@@ -317,11 +325,12 @@ dialog.addEventListener("click", event => {
     event.clientX > bounds.right ||
     event.clientY < bounds.top ||
     event.clientY > bounds.bottom
-  ) dialog.close();
+  ) closeProject();
 });
 
 $("#dialog-contact").addEventListener("click", event => {
   event.preventDefault();
+  dialogAnimation?.cancel();
   dialog.close();
 
   $("#contact").scrollIntoView({
@@ -397,87 +406,6 @@ function queueScrollUpdate() {
 addEventListener("scroll", queueScrollUpdate, { passive: true });
 addEventListener("resize", queueScrollUpdate);
 
-/* Smooth cursor ring; normal system cursor remains available */
-const ring = $(".cursor-ring");
-let cursorFrame = null;
-let targetX = 0;
-let targetY = 0;
-let ringX = 0;
-let ringY = 0;
-let cursorVisible = false;
-
-function cursorAllowed() {
-  return finePointer.matches && !motionPreference.matches;
-}
-
-function stopCursor() {
-  if (cursorFrame !== null) cancelAnimationFrame(cursorFrame);
-  cursorFrame = null;
-  cursorVisible = false;
-  ring.style.opacity = "0";
-  ring.classList.remove("active", "pressed");
-}
-
-function animateCursor() {
-  cursorFrame = null;
-  if (!cursorAllowed() || !cursorVisible) return;
-
-  ringX += (targetX - ringX) * 0.22;
-  ringY += (targetY - ringY) * 0.22;
-
-  ring.style.transform =
-    `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-
-  if (
-    Math.abs(targetX - ringX) > 0.15 ||
-    Math.abs(targetY - ringY) > 0.15
-  ) {
-    cursorFrame = requestAnimationFrame(animateCursor);
-  }
-}
-
-document.addEventListener("pointermove", event => {
-  if (event.pointerType !== "mouse" || !cursorAllowed()) return;
-
-  targetX = event.clientX;
-  targetY = event.clientY;
-
-  if (!cursorVisible) {
-    ringX = targetX;
-    ringY = targetY;
-    cursorVisible = true;
-  }
-
-  ring.style.opacity = "1";
-
-  ring.classList.toggle(
-    "active",
-    Boolean(event.target.closest("a, button, input, textarea, select, summary"))
-  );
-
-  if (cursorFrame === null) {
-    cursorFrame = requestAnimationFrame(animateCursor);
-  }
-}, { passive: true });
-
-document.addEventListener("pointerdown", event => {
-  if (event.pointerType === "mouse" && cursorAllowed()) {
-    ring.classList.add("pressed");
-  }
-});
-
-document.addEventListener("pointerup", () => {
-  ring.classList.remove("pressed");
-});
-
-document.documentElement.addEventListener("pointerleave", stopCursor);
-addEventListener("blur", stopCursor);
-finePointer.addEventListener("change", stopCursor);
-
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) stopCursor();
-});
-
 /* Contact: opens a draft, does not claim to send a message */
 $("#contact-form").addEventListener("submit", event => {
   event.preventDefault();
@@ -509,7 +437,7 @@ $("#copy-email").addEventListener("click", async () => {
 
 /* Respect changes to reduced-motion settings */
 motionPreference.addEventListener("change", event => {
-  stopCursor();
+  dialogAnimation?.cancel();
 
   if (event.matches) {
     revealObserver?.disconnect();
